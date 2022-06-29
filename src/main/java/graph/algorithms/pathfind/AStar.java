@@ -109,4 +109,18 @@ public class AStar<V> implements PathFindAlgorithm<V> {
     public V current() {
         return current;
     }
+
+    @Override
+    public List<V> currentPath() {
+        LinkedList<V> currentPath = new LinkedList<>();
+        V temp = current;
+        currentPath.push(temp);
+        while (temp != null) {
+            if(!parent.containsKey(temp))
+                break;
+            temp = parent.get(temp);
+            currentPath.addFirst(temp);
+        }
+        return currentPath;
+    }
 }

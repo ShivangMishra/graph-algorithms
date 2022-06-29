@@ -17,4 +17,6 @@ public interface PathFindAlgorithm<V> {
     List<V> path();
 
     V current();
+
+    List<V> currentPath();
 }

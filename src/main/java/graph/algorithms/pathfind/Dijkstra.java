@@ -20,6 +20,7 @@ public class Dijkstra<V> implements PathFindAlgorithm<V> {
     private final HashMap<V, V> parent;
 
     private final ArrayList<PFObserver<V>> observers;
+    private V current;
 
     public Dijkstra() {
         closed = new HashSet<>();
@@ -62,10 +63,11 @@ public class Dijkstra<V> implements PathFindAlgorithm<V> {
             }
 
             V u = open.poll();
+            this.current = u;
             closed.add(u);
             assert u != null;
             if (u.equals(destination)) {
-                path(source,destination);
+                path(source, destination);
                 stop();
             }
             graph.neighbours(u).forEach(v -> {
@@ -133,6 +135,21 @@ public class Dijkstra<V> implements PathFindAlgorithm<V> {
 
     @Override
     public V current() {
-        return null;
+        return current;
+    }
+
+    @Override
+    public List<V> currentPath() {
+        LinkedList<V> currentPath = new LinkedList<>();
+
+        V temp = current;
+        currentPath.push(temp);
+        while (temp != null) {
+            if (!parent.containsKey(temp))
+                break;
+            temp = parent.get(temp);
+            currentPath.addFirst(temp);
+        }
+        return currentPath;
     }
 }
