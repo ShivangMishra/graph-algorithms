@@ -23,7 +23,7 @@ public class NavGrid extends Graph<Node> {
     public NavGrid(int rows, int columns) {
         grid = new byte[rows][columns];
         startNode = new Node(0, 0);
-        endNode = new Node(0, nColumns() - 1);
+        endNode = new Node(nRows() - 1, nColumns() - 1);
 //        nodes = new Node[nRows() * nColumns()];
 //
 //        for (int row = 0, counter = 0; row < nRows(); row++) {
@@ -64,7 +64,7 @@ public class NavGrid extends Graph<Node> {
                     continue;
                 if (row + i >= nRows() || row + i < 0 || column + j >= nColumns() || column + j < 0)
                     continue;
-                if(!isDiagonallyTraversable() && i != 0 && j !=0)  {
+                if (!isDiagonallyTraversable() && i != 0 && j != 0) {
                     continue;
                 }
                 if (isNodeWalkable(row + i, column + j))
@@ -73,7 +73,7 @@ public class NavGrid extends Graph<Node> {
         }
         return neighbours;
     }
-    
+
     public void setDiagonallyTraversable(boolean canMoveDiagonally) {
         this.diagonallyTraversable = canMoveDiagonally;
     }

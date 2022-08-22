@@ -15,9 +15,12 @@ public class Pathfinder extends JFrame {
     public Pathfinder() {
         NavGrid navGrid = new NavGrid(50, 50);
         navGrid.fillRandom(0.2);
+        navGrid.setDiagonallyTraversable(true);
         //Dijkstra <Node> p = new Dijkstra<>();
-//        AStar<Node> p = new AStar<>((v1,v2)->Math.sqrt(navGrid.euclideanDistanceSquared(v1,v2)));
-        AStar<Node> p = new AStar<>((v1,v2)->0);
+        AStar<Node> p = new AStar<>((v1, v2) ->
+                Math.sqrt(navGrid.euclideanDistanceSquared(v1, v2)));
+
+//        AStar<Node> p = new AStar<>((v1,v2)->0);
         PathFindingVisualizer pfv = new PathFindingVisualizer(navGrid);
         System.out.println("made pfv");
         p.addObserver(pfv);

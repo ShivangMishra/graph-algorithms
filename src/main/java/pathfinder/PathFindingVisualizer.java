@@ -39,21 +39,34 @@ public class PathFindingVisualizer extends JPanel implements PFObserver<Node> {
         }
 
         g.setColor(Color.YELLOW);
+        Graphics2D g2 = (Graphics2D) g;
         if (algo.path() != null) {
             g.setColor(Color.YELLOW);
             System.out.println("Drawing path");
-            for (var node : algo.path()) {
-                g.fillRect(OFF + node.column * cellWidth, OFF + node.row * cellHeight, cellWidth, cellHeight);
+            Node cur = null, prev = null;
+            g2.setStroke(new BasicStroke(5));
+            for (Node node : algo.path()) {
+                if (cur == null) {
+                    cur = prev = node;
+                    continue;
+                }
+                cur = node;
+                g2.drawLine(OFF + cur.column * cellWidth + cellWidth / 2, OFF + cur.row * cellHeight + cellHeight / 2,
+                        OFF + prev.column * cellWidth + cellWidth / 2, OFF + prev.row * cellHeight + cellHeight / 2);
+                prev = cur;
             }
+            g2.setStroke(new BasicStroke(1));
+
         } else {
             g.setColor(Color.CYAN);
-            for (var node : algo.currentPath()) {
-                System.out.println(node.row + "," +  node.column);
-                g.fillRect(OFF + node.column * cellWidth, OFF + node.row * cellHeight, cellWidth, cellHeight);
-            }
+            algo.currentPath().forEach(node -> {
+                System.out.println(node.row + "," + node.column);
+                g.fillRect(OFF + node.column * cellWidth,
+                        OFF + node.row * cellHeight, cellWidth, cellHeight);
+            });
         }
-        Node node;
 
+        Node node;
         if ((node = algo.current()) != null) {
             g.setColor(Color.YELLOW);
             g.fillRect(OFF + node.column * cellWidth, OFF + node.row * cellHeight, cellWidth, cellHeight);
